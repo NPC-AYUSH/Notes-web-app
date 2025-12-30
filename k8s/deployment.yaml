@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app-deployment
+  labels:
+    app: notes-app
+spec:
+  # Step 1: Tell K8s how many copies (replicas) of your app to run
+  replicas: 2
+
+  # Step 2: Define which pods this deployment manages
+  selector:
+    matchLabels:
+      app: notes-app
+
+  # Step 3: Define the pod template
+  template:
+    metadata:
+      labels:
+        app: notes-app
+    spec:
+      containers:
+        - name: notes-app
+          # Step 4: Specify the Docker image to use
+          # (This should match the tag you use during docker build)
+          image: notes-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
